@@ -1,11 +1,40 @@
 ﻿@model Zajezdnia.Models.Zajezdnia_autobusow
-
-<h2>Usuń zajezdnię?</h2>
-
-<p>Czy na pewno chcesz usunąć zajezdnię <strong>@Model.Nazwa</strong>?</p>
-
-<form asp-action="DeleteConfirmed" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Usuń</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Anuluj</a>
-</form>
+@{
+    ViewData["Title"] = "Usuń zajezdnię";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0 border-top border-danger border-4">
+            <div class="card-header bg-danger text-white py-3">
+                <h4 class="mb-0"><i class="bi bi-trash3 me-2"></i>Usuń zajezdnię</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-danger d-flex align-items-start gap-2">
+                    <i class="bi bi-exclamation-triangle-fill fs-5 mt-1"></i>
+                    <div>
+                        Czy na pewno chcesz usunąć tę zajezdnię?
+                        Operacja jest <strong>nieodwracalna</strong>.
+                    </div>
+                </div>
+                <dl class="row mt-3">
+                    <dt class="col-sm-3">Nazwa</dt>
+                    <dd class="col-sm-9 fw-bold">@Model.Nazwa</dd>
+                    <dt class="col-sm-3">Adres</dt>
+                    <dd class="col-sm-9">@Model.Adres</dd>
+                    <dt class="col-sm-3">Miasto</dt>
+                    <dd class="col-sm-9">@Model.Miasto</dd>
+                    <dt class="col-sm-3">Autobusy</dt>
+                    <dd class="col-sm-9">@Model.Autobusy.Count szt.</dd>
+                </dl>
+                <form asp-action="Delete" method="post" class="d-flex gap-2 mt-3">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger flex-fill">
+                        <i class="bi bi-trash3 me-1"></i>Tak, usuń
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Anuluj</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

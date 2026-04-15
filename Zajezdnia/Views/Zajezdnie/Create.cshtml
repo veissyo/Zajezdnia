@@ -2,32 +2,25 @@
 @{
     ViewData["Title"] = "Dodaj zajezdnię";
 }
-
-<h2>Dodaj nową zajezdnię</h2>
-
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Nazwa"></label>
-        <input asp-for="Nazwa" class="form-control" />
-        <span asp-validation-for="Nazwa" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Dodaj zajezdnię</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    @await Html.PartialAsync("_FormZajezdnia", Model)
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bi bi-check-lg me-1"></i>Zapisz
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Anuluj</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Adres"></label>
-        <input asp-for="Adres" class="form-control" />
-        <span asp-validation-for="Adres" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Miasto"></label>
-        <input asp-for="Miasto" class="form-control" />
-        <span asp-validation-for="Miasto" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Dodaj</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Anuluj</a>
-</form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

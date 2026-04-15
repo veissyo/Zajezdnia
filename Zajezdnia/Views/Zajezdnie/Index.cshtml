@@ -1,49 +1,98 @@
 ﻿@model IEnumerable<Zajezdnia.Models.Zajezdnia_autobusow>
 @{
     ViewData["Title"] = "Lista zajezdni";
+    var miasta = ViewBag.Miasta as List<string> ?? new List<string>();
 }
 
-<h2>Zajezdnie autobusowe</h2>
-
-<form method="get" class="form-inline mb-3">
-    <input type="text" name="szukaj" value="@ViewBag.Szukaj" placeholder="Szukaj..." class="form-control mr-2" />
-
-    <select name="miasto" class="form-control mr-2">
-        <option value="">Wszystkie miasta</option>
-        @foreach (var m in ViewBag.Miasta as List<string>)
-        {
-            <option value="@m" selected="@(m == (string)ViewBag.Miasto ? "selected" : null)">@m</option>
-        }
-    </select>
-
-    <button type="submit" class="btn btn-primary">Filtruj</button>
-</form>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Nazwa</th>
-        <th>Miasto</th>
-        <th>Adres</th>
-        <th>Autobusy</th>
-        <th>Akcje</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var z in Model)
+<div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="fw-bold mb-0"><i class="bi bi-building me-2 text-primary"></i>Zajezdnie</h2>
+        <small class="text-muted">Zarządzanie zajezdniami autobusowymi</small>
+    </div>
+    @if (ViewBag.IsLoggedIn == true)
     {
-        <tr>
-            <td>@z.Nazwa</td>
-            <td>@z.Miasto</td>
-            <td>@z.Adres</td>
-            <td>@z.Autobusy.Count</td>
-            <td>
-                <a class="btn btn-sm btn-info" href="@Url.Action("Details", new { id = z.Id })">Szczegóły</a>
-                <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", new { id = z.Id })">Edytuj</a>
-                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = z.Id })">Usuń</a>
-            </td>
-        </tr>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Dodaj zajezdnię
+        </a>
     }
-    </tbody>
-</table>
+</div>
 
-<a class="btn btn-success" href="@Url.Action("Create")">Dodaj nową zajezdnię</a>
+{{-- Wyszukiwanie i filtr – dostępne dla wszystkich --}}
+<form method="get" class="mb-4">
+    <div class="row g-2">
+        <div class="col-sm-6 col-md-5">
+            <div class="input-group shadow-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input type="text" name="szukaj" value="@ViewBag.Szukaj"
+                       class="form-control border-start-0 ps-0"
+                       placeholder="Szukaj po nazwie lub adresie…" />
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <select name="miasto" class="form-select shadow-sm">
+                <option value="">Wszystkie miasta</option>
+                @foreach (var m in miasta)
+                {
+                    <option value="@m" selected="@(ViewBag.Miasto == m ? "selected" : null)">@m</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Szukaj</button>
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Szukaj?.ToString()) || !string.IsNullOrWhiteSpace(ViewBag.Miasto?.ToString()))
+            {
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-lg"></i> Wyczyść
+                </a>
+            }
+        </div>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 text-muted">
+        <i class="bi bi-search display-4 d-block mb-3 opacity-25"></i>
+        <p>Brak zajezdni spełniających kryteria wyszukiwania.</p>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        @foreach (var z in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 hover-card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold text-primary mb-1">
+                            <i class="bi bi-building me-1"></i>@z.Nazwa
+                        </h5>
+                        <p class="text-muted small mb-1">
+                            <i class="bi bi-geo-alt me-1"></i>@z.Adres
+                        </p>
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-pin-map me-1"></i>@z.Miasto
+                        </p>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                            <i class="bi bi-bus-front me-1"></i>@z.Autobusy.Count autobusów
+                        </span>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 d-flex gap-2 pb-3 px-3">
+                        <a asp-action="Details" asp-route-id="@z.Id" class="btn btn-sm btn-outline-primary flex-fill">
+                            <i class="bi bi-eye me-1"></i>Szczegóły
+                        </a>
+                        @if (ViewBag.IsLoggedIn == true)
+                        {
+                            <a asp-action="Edit" asp-route-id="@z.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@z.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

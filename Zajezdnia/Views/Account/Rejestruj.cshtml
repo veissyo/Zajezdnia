@@ -1,0 +1,88 @@
+﻿@model Zajezdnia.Models.RejestrujViewModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0 mt-2">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Rejestracja</h4>
+                <small class="opacity-75">Utwórz nowe konto użytkownika</small>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Rejestruj" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Imie" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input asp-for="Imie" class="form-control" placeholder="Jan" />
+                            </div>
+                            <span asp-validation-for="Imie" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Nazwisko" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input asp-for="Nazwisko" class="form-control" placeholder="Kowalski" />
+                            </div>
+                            <span asp-validation-for="Nazwisko" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Login" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-at"></i></span>
+                                <input asp-for="Login" class="form-control" placeholder="jkowalski" />
+                            </div>
+                            <span asp-validation-for="Login" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Email" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input asp-for="Email" class="form-control" placeholder="jan@przykład.pl" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Haslo" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input asp-for="Haslo" class="form-control" placeholder="min. 6 znaków" />
+                            </div>
+                            <span asp-validation-for="Haslo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="PotwierdzHaslo" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input asp-for="PotwierdzHaslo" class="form-control" placeholder="powtórz hasło" />
+                            </div>
+                            <span asp-validation-for="PotwierdzHaslo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-2">
+                            <button type="submit" class="btn btn-primary w-100 py-2">
+                                <i class="bi bi-check-lg me-1"></i>Utwórz konto
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3 text-muted small">
+                Masz już konto?
+                <a asp-controller="Account" asp-action="Zaloguj" class="fw-semibold">Zaloguj się</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

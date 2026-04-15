@@ -1,0 +1,28 @@
+﻿@model Zajezdnia.Models.Zajezdnia_autobusow
+
+<div class="mb-3">
+    <label asp-for="Nazwa" class="form-label fw-semibold"></label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-building"></i></span>
+        <input asp-for="Nazwa" class="form-control" placeholder="np. Zajezdnia Północna" />
+    </div>
+    <span asp-validation-for="Nazwa" class="text-danger small"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Adres" class="form-label fw-semibold"></label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+        <input asp-for="Adres" class="form-control" placeholder="ul. Przykładowa 1" />
+    </div>
+    <span asp-validation-for="Adres" class="text-danger small"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Miasto" class="form-label fw-semibold"></label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-pin-map"></i></span>
+        <input asp-for="Miasto" class="form-control" placeholder="np. Warszawa" />
+    </div>
+    <span asp-validation-for="Miasto" class="text-danger small"></span>
+</div>

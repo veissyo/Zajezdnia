@@ -1,0 +1,58 @@
+﻿@model Zajezdnia.Models.ZalogujViewModel
+@{
+    ViewData["Title"] = "Logowanie";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow border-0 mt-2">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Logowanie</h4>
+                <small class="opacity-75">Zaloguj się do systemu</small>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Zaloguj" method="post">
+                    @Html.AntiForgeryToken()
+                    @if (ViewBag.ReturnUrl != null)
+                    {
+                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                    }
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Login" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-at"></i></span>
+                            <input asp-for="Login" class="form-control" placeholder="Twój login" autofocus />
+                        </div>
+                        <span asp-validation-for="Login" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Haslo" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                            <input asp-for="Haslo" class="form-control" placeholder="Hasło" />
+                        </div>
+                        <span asp-validation-for="Haslo" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        <input asp-for="ZapamiętajMnie" class="form-check-input" />
+                        <label asp-for="ZapamiętajMnie" class="form-check-label small"></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Zaloguj się
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3 text-muted small">
+                Nie masz konta?
+                <a asp-controller="Account" asp-action="Rejestruj" class="fw-semibold">Zarejestruj się</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
